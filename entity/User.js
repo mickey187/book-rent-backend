@@ -24,6 +24,9 @@ const User = new EntitySchema({
       type: "varchar",
     },
   },
+  isActive: {
+    type: "boolean",
+  },
 
   role: {
     type: "many-to-one",

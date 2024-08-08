@@ -1,7 +1,7 @@
 const {EntitySchema } = require('typeorm');
 const bcrypt = require('bcrypt');
 
- const User = new EntitySchema({
+ const Book = new EntitySchema({
     name: "Book",
     tableName: "books",
     columns: {
@@ -14,8 +14,7 @@ const bcrypt = require('bcrypt');
         type: "varchar"
       },
       quantity: {
-        type: "int"
-        
+        type: "int"     
       },
 
       owner: {
@@ -23,6 +22,15 @@ const bcrypt = require('bcrypt');
         target: 'User',
         joinColumn: true,
    
+      },
+      isApprovedByOwner: {
+        type: "boolean"
+      },
+      isApprovedByAdmin: {
+        type: "boolean"
+      },
+      rentPrice: {
+        type: "float"
       }
       
 
@@ -35,4 +43,4 @@ const bcrypt = require('bcrypt');
     
   });
 
-  module.exports = User
+  module.exports = Book;

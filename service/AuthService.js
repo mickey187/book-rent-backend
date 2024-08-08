@@ -55,10 +55,10 @@ const authenticateUser = async (email, password) => {
         email: email,
       },
     });
-    
+
     // Check if the user exists and the password is correct
     if (!user || !bcrypt.compareSync(password, user.password)) {
-        console.log("fullf")
+      console.log("fullf");
       return false;
     } else {
       // Create a JWT token
@@ -73,4 +73,14 @@ const authenticateUser = async (email, password) => {
   }
 };
 
-module.exports = { generateToken, formatToken, createUser, authenticateUser };
+const creatRoleService = async (roleName) => {
+  try {
+    const role = roleRepository.create({name:roleName});
+    await roleRepository.save(role);
+    return role;
+  } catch (error) {
+    throw new Error( `createRole: error creating new role: ${error}`);
+  }
+};
+
+module.exports = { generateToken, formatToken, createUser, authenticateUser, creatRoleService };

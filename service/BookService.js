@@ -1,7 +1,5 @@
 
-
-
-const createBook = (req, res) => {
+const createBookService = ()=>{
     try {
         
     } catch (error) {
