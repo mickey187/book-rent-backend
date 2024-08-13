@@ -23,21 +23,30 @@ const User = new EntitySchema({
     password: {
       type: "varchar",
     },
+    phone: {
+      type: "varchar",
+      nullable: true,
+    },
+    location: {
+      type: "varchar",
+      nullable: true,
+    },
   },
   isActive: {
     type: "boolean",
   },
+  relations: {
+    role: {
+      type: "many-to-one",
+      target: "Role",
+      joinColumn: true,
+    },
 
-  role: {
-    type: "many-to-one",
-    target: "Role",
-    joinColumn: true,
-  },
-
-  books: {
-    type: "one-to-many",
-    target: "Book",
-    joinColumn: true,
+    books: {
+      type: "one-to-many",
+      target: "Book",
+      joinColumn: true,
+    },
   },
 });
 

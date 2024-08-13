@@ -14,10 +14,12 @@ const Wallet = new EntitySchema({
       type: "float",
     },
   },
-  userId: {
-    type: "one-to-one",
-    target: "User",
-    joinColumn: true,
+  relations: {
+    userId: {
+      type: "one-to-one",
+      target: "User",
+      joinColumn: true,
+    },
   },
 });
 

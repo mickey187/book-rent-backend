@@ -1,6 +1,9 @@
 const { createConnection, DataSource } = require("typeorm");
 const User = require("../entity/User.js");
 const Role = require("../entity/Role.js");
+const Book = require("../entity/Book.js");
+const Wallet = require("../entity/Wallet.js");
+const BookRent = require("../entity/BookRent.js");
 
 
 const connectionOptions = {
@@ -14,7 +17,7 @@ const connectionOptions = {
     autoLoadEntities: true,
     logging: false,
     entities: [
-      User, Role
+      User, Role, Book, Wallet, BookRent
     ],
     // migrations: [
     //   "src/migration/**/*.js"

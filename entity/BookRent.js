@@ -10,18 +10,41 @@ const BookRent = new EntitySchema({
       primary: true,
       generated: true,
     },
-    ownerId: {
-      type: "int",
-    },
-    renterId: {
-      type: "int",
-    },
+    // ownerId: {
+    //   type: "int",
+    // },
+    // renterId: {
+    //   type: "int",
+    // },
     rentedOn: {
-      type: "date",
+      type: "timestamp",
     },
     returnedOn: {
-        type: "date"
+        type: "timestamp",
+        nullable: true
     }
+  },
+  relations: {
+    
+    book: {
+      type: "many-to-one",
+      target: "Book",
+      joinColumn: true,
+      eager: true,
+    },
+    owner: {
+      type: "many-to-one",
+      target: "User",
+      joinColumn: true,
+      eager: true,
+    },
+    renter: {
+      type: "many-to-one",
+      target: "User",
+      joinColumn: true,
+      eager: true,
+    }
+
   },
 });
 

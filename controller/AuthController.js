@@ -14,6 +14,7 @@ const signup = async (req, res) => {
     if (newUser) {
       const token = generateToken(newUser);
       return res.json({
+        success: true,
         message: "user created",
         data: newUser,
         token: token,
@@ -33,8 +34,8 @@ const signin = async(req, res) => {
     
     if (token) {
       return res.status(200).json({
-        statusCode: 200,
-        status: "success",
+      
+        success: true,
         message: "Login Successful",
         data: {
           token: token,
@@ -49,6 +50,7 @@ const signin = async(req, res) => {
       });
     }
   } catch (error) {
+    console.error("error signing in: ", error);
     return res.status(500).json({
       statusCode: 500,
       status: "error",
