@@ -95,3 +95,6 @@ dist
 
 # Storybook files
 /.storybook/
+
+config/ca.pem
+
