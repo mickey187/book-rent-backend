@@ -4,8 +4,12 @@ const { createBookService, fetchBooksByOwnerIdService, fetchAllBookService } = r
 
 const createBook = async(req, res) => {
     try {
-        console.log(req.file)
+        req.body.ownerId = req.userId; 
+        console.log(req.file);
         const book = await createBookService(req.body, req.file);
+        
+
+           
         if (book) {
             return res.json({
                 message: "book created successfully",
@@ -15,7 +19,8 @@ const createBook = async(req, res) => {
         }
     } catch (error) {
         console.error(`error creating new book: ${error}`);
-        return res.json({
+        return res.status(500).json({
+            success: false,
             message: "failed to create new book: "+error.message,
             success:false
         })

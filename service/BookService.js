@@ -7,10 +7,17 @@ const userRepository = AppDataSource.getRepository("User");
 const createBookService = async (bookData, bookCover) => {
   try {
     const { bookName, bookQuantity, rentPrice, ownerId } = bookData;
-    const ownerUserId = await userRepository.findOne({
-      where: { id: ownerId },
-    });
-    if (ownerUserId) {
+    console.log("ownerId", ownerId);
+    let owner = null;
+    
+    console.log("loggggggggg", owner);
+    if (ownerId !== undefined) {
+       owner = await userRepository.findOne({
+        where: { id: ownerId },
+      });
+    }
+    
+    if (owner) {
       filePath = path.join(
         __dirname,
         "..",
@@ -22,7 +29,7 @@ const createBookService = async (bookData, bookCover) => {
         name: bookName,
         quantity: bookQuantity,
         rentPrice: rentPrice,
-        owner: ownerUserId,
+        owner: owner.id,
         bookCoverUrl: filePath,
       });
 
@@ -40,7 +47,9 @@ const createBookService = async (bookData, bookCover) => {
 
 const fetchBooksByOwnerIdService = async (ownerId) => {
   try {
-    const books = await bookRepository.find({
+    let books = null;
+    if (ownerId !== undefined) {
+       books = await bookRepository.find({
         where: {
           owner: {
             id: ownerId,
@@ -48,6 +57,8 @@ const fetchBooksByOwnerIdService = async (ownerId) => {
         },
         relations: ["owner"],
       });
+    }
+    
       if (books) {
         return books;
       }else{
