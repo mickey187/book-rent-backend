@@ -1,6 +1,7 @@
 const {
   rentBookService,
   fetchRentedBooksService,
+  fetchBooksForRentService,
 } = require("../service/RenterService");
 
 const rentBook = async (req, res) => {
@@ -44,4 +45,23 @@ const fetchRentedBooks = async (req, res) => {
   }
 };
 
-module.exports = { rentBook, fetchRentedBooks };
+const fetchBooksForRent = async (req, res) => {
+  try {
+   
+    const booksForRent = await fetchBooksForRentService();
+    return res.status(200).json({
+        success: true,
+        message: "rented books found",
+        data: booksForRent
+    })
+  } catch (error) {
+    console.error("could not find books for rent: ", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "could not find books for rent",
+    });
+  }
+};
+
+module.exports = { rentBook, fetchRentedBooks, fetchBooksForRent };

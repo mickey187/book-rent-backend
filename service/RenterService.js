@@ -65,9 +65,19 @@ const rentBookService = async (rentData, renterId) => {
 
 const fetchRentedBooksService = async(renterId)=>{
     try {
-        const rentedBooks = await bookRentRepository.find({
-            where: { renter: renterId },
-        });
+      let rentBooks = null;
+      console.log("renterId", renterId);
+      if (renterId !== undefined){
+         rentedBooks = await bookRentRepository.find({
+          where:  { renter: { id: parseInt(renterId) } },  
+          relations: ["owner", "renter"],
+          logging: true,
+      });
+      }
+      
+        
+        console.log("rentedBooks", rentedBooks);
+        
         if (rentedBooks) {
             return rentedBooks
         }else{
@@ -78,4 +88,15 @@ const fetchRentedBooksService = async(renterId)=>{
     }
 }
 
-module.exports = {rentBookService, fetchRentedBooksService};
+const fetchBooksForRentService = async()=>{
+  try {
+    const booksForRent = await bookRepository.find(
+     {relations: ['owner']}
+    );
+    return booksForRent;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+module.exports = {rentBookService, fetchRentedBooksService, fetchBooksForRentService};
