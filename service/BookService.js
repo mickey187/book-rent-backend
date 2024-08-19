@@ -78,49 +78,65 @@ const fetchAllBookService = async () => {
   }
 };
 
-const approveBookService = async(bookId)=>{
+const approveBookService = async (bookId) => {
   try {
     if (bookId !== undefined) {
-      const book = await bookRepository.findOne({where: {id: bookId}});
+      const book = await bookRepository.findOne({ where: { id: bookId } });
       if (book) {
         book.isApprovedByAdmin = true;
         await bookRepository.save(book);
         return true;
-      }else{
-        throw new Error('No book found with the provided id');
+      } else {
+        throw new Error("No book found with the provided id");
       }
-    }else{
-      throw new Error('Please provide a book id');
+    } else {
+      throw new Error("Please provide a book id");
     }
   } catch (error) {
     throw new Error(error);
   }
-}
+};
 
-const unApproveBookService = async(bookId)=>{
+const unApproveBookService = async (bookId) => {
   try {
     if (bookId !== undefined) {
-      const book = await bookRepository.findOne({where: {id: bookId}});
+      const book = await bookRepository.findOne({ where: { id: bookId } });
       if (book) {
         book.isApprovedByAdmin = false;
         await bookRepository.save(book);
         return true;
-      }else{
-        throw new Error('No book found with the provided id');
+      } else {
+        throw new Error("No book found with the provided id");
       }
-    }else{
-      throw new Error('Please provide a book id');
+    } else {
+      throw new Error("Please provide a book id");
     }
   } catch (error) {
     throw new Error(error);
   }
-}
+};
+
+const fetchBookOwnersService = async () => {
+  try {
+    const bookOwners = await userRepository.find({
+      relations: ["role"],
+      where: { role: { name: "bookOwner" } },
+    });
+    if (bookOwners) {
+      return bookOwners;
+    } else {
+      throw new Error("could not fetch book owners");
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
 module.exports = {
   createBookService,
   fetchBooksByOwnerIdService,
   fetchAllBookService,
   approveBookService,
-  unApproveBookService
-  
+  unApproveBookService,
+  fetchBookOwnersService,
 };
