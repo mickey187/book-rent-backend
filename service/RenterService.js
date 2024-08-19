@@ -8,6 +8,8 @@ const rentBookService = async (rentData, renterId) => {
     try {
       const { bookId, ownerId } = rentData;
       console.log("bookId, ownerId", bookId, ownerId);
+      console.log("renterId", renterId);
+      
   
       const ownerUserId = await userRepository.findOne({
         where: { id: ownerId },
@@ -65,13 +67,13 @@ const rentBookService = async (rentData, renterId) => {
 
 const fetchRentedBooksService = async(renterId)=>{
     try {
-      let rentBooks = null;
+      let rentedBooks = null;
       console.log("renterId", renterId);
       if (renterId !== undefined){
          rentedBooks = await bookRentRepository.find({
           where:  { renter: { id: parseInt(renterId) } },  
           relations: ["owner", "renter"],
-          logging: true,
+          
       });
       }
       
