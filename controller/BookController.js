@@ -1,4 +1,4 @@
-const { createBookService, fetchBooksByOwnerIdService, fetchAllBookService } = require("../service/BookService")
+const { createBookService, fetchBooksByOwnerIdService, fetchAllBookService, approveBookService, unApproveBookService } = require("../service/BookService")
 
 
 
@@ -60,4 +60,44 @@ const fetchAllBooks = async(req, res) => {
     }
 }
 
-module.exports = {createBook, fetchBooksByOwnerId, fetchAllBooks}
+const approveBook = async(req, res) => {
+    try {
+        const bookId = req.params.bookId;
+        const updatedBook = approveBookService(bookId);
+        if (updatedBook) {
+            return res.status(200).json({
+                success: true,
+                message: "approved book"
+            })
+        }
+    } catch (error) {
+        console.error("error approving book: ", error);
+        
+        return res.status(500).json({
+            success: false,
+            message: "could not approve books"
+        });
+    }
+}
+
+const unApproveBook = async(req, res) => {
+    try {
+        const bookId = req.params.bookId;
+        const updatedBook = unApproveBookService(bookId);
+        if (updatedBook) {
+            return res.status(200).json({
+                success: true,
+                message: "unapproved book"
+            })
+        }
+    } catch (error) {
+        console.error("error unapproving book: ", error);
+        
+        return res.status(500).json({
+            success: false,
+            message: "could not unapprove book"
+        });
+    }
+}
+
+module.exports = {createBook, fetchBooksByOwnerId, fetchAllBooks, approveBook, unApproveBook}

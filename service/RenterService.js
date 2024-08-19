@@ -91,7 +91,7 @@ const fetchRentedBooksService = async(renterId)=>{
 const fetchBooksForRentService = async()=>{
   try {
     const booksForRent = await bookRepository.find(
-     {relations: ['owner']}
+     {where: {isApprovedByAdmin: true},relations: ['owner']}
     );
     return booksForRent;
   } catch (error) {
@@ -99,4 +99,4 @@ const fetchBooksForRentService = async()=>{
   }
 }
 
-module.exports = {rentBookService, fetchRentedBooksService, fetchBooksForRentService};
+module.exports = {rentBookService, fetchRentedBooksService, fetchBooksForRentService};rentBookService

@@ -9,14 +9,14 @@ const createBookService = async (bookData, bookCover) => {
     const { bookName, bookQuantity, rentPrice, ownerId } = bookData;
     console.log("ownerId", ownerId);
     let owner = null;
-    
+
     console.log("loggggggggg", owner);
     if (ownerId !== undefined) {
-       owner = await userRepository.findOne({
+      owner = await userRepository.findOne({
         where: { id: ownerId },
       });
     }
-    
+
     if (owner) {
       filePath = path.join(
         __dirname,
@@ -49,7 +49,7 @@ const fetchBooksByOwnerIdService = async (ownerId) => {
   try {
     let books = null;
     if (ownerId !== undefined) {
-       books = await bookRepository.find({
+      books = await bookRepository.find({
         where: {
           owner: {
             id: ownerId,
@@ -58,26 +58,69 @@ const fetchBooksByOwnerIdService = async (ownerId) => {
         relations: ["owner"],
       });
     }
-    
-      if (books) {
-        return books;
-      }else{
-        throw new Error('no books fount with owner id');
-      }
-      
+
+    if (books) {
+      return books;
+    } else {
+      throw new Error("no books fount with owner id");
+    }
   } catch (error) {
     console.error("error on fetchBooksByOwnerIdService: ", error);
-    
   }
 };
 
-const fetchAllBookService = async()=>{
-try {
-  const allBooks = await bookRepository.find({ relations: ["owner"]});
-  return allBooks;
-} catch (error) {
-  throw new Error(error);
-}
+const fetchAllBookService = async () => {
+  try {
+    const allBooks = await bookRepository.find({ relations: ["owner"] });
+    return allBooks;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const approveBookService = async(bookId)=>{
+  try {
+    if (bookId !== undefined) {
+      const book = await bookRepository.findOne({where: {id: bookId}});
+      if (book) {
+        book.isApprovedByAdmin = true;
+        await bookRepository.save(book);
+        return true;
+      }else{
+        throw new Error('No book found with the provided id');
+      }
+    }else{
+      throw new Error('Please provide a book id');
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
 }
 
-module.exports = { createBookService, fetchBooksByOwnerIdService, fetchAllBookService };
+const unApproveBookService = async(bookId)=>{
+  try {
+    if (bookId !== undefined) {
+      const book = await bookRepository.findOne({where: {id: bookId}});
+      if (book) {
+        book.isApprovedByAdmin = false;
+        await bookRepository.save(book);
+        return true;
+      }else{
+        throw new Error('No book found with the provided id');
+      }
+    }else{
+      throw new Error('Please provide a book id');
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+module.exports = {
+  createBookService,
+  fetchBooksByOwnerIdService,
+  fetchAllBookService,
+  approveBookService,
+  unApproveBookService
+  
+};
