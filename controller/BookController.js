@@ -4,6 +4,8 @@ const { createBookService, fetchBooksByOwnerIdService, fetchAllBookService, appr
 
 const createBook = async(req, res) => {
     try {
+        console.log("(req.userId)", req.userId);
+        
         req.body.ownerId = req.userId; 
         console.log(req.file);
         const book = await createBookService(req.body, req.file);

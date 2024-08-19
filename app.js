@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 connectDB();
 app.use('/auth', authRouter);
 // app.use('/', indexRouter);
-// app.use('/', verifyToken, indexRouter);
+app.use('/', verifyToken, indexRouter);
 app.use('/admin', adminRouter);
 app.use('/users', usersRouter);
 app.use('/role', roleRouter);

@@ -36,7 +36,7 @@ const createBookService = async (bookData, bookCover) => {
       await bookRepository.save(newBook);
       return newBook;
     } else {
-      throw new Error("could find owner with the provided id");
+      throw new Error("could not find owner with the provided id");
     }
   } catch (error) {
     console.error("erro book create: ", error);
